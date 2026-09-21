@@ -33,7 +33,7 @@ class BaitBlockVpnService : VpnService() {
         // (not yet built) detector. Type this into Chrome's address bar to
         // test the block path; it never needs to resolve for real, since a
         // blocked query is answered with NXDOMAIN and never forwarded.
-        private const val BLOCKED_TEST_DOMAIN = "example-blocked-test.com"
+        private const val BLOCKED_TEST_DOMAIN = "youtube.com"
     }
 
     /** Everything extracted from one raw DNS query packet, needed to reply. */
@@ -147,7 +147,8 @@ class BaitBlockVpnService : VpnService() {
      * change.
      */
     private fun checkDomain(query: DnsQuery, tunOutput: FileOutputStream) {
-        val isBlocked = query.domain.equals(BLOCKED_TEST_DOMAIN, ignoreCase = true)
+        val isBlocked = query.domain.equals(BLOCKED_TEST_DOMAIN, ignoreCase = true) ||
+            query.domain.endsWith(".$BLOCKED_TEST_DOMAIN", ignoreCase = true)
         if (isBlocked) {
             Log.d(TAG, "BLOCKED: ${query.domain}")
             respondNxDomain(query, tunOutput)
