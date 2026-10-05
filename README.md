@@ -25,7 +25,7 @@ As of the last test run, interception and domain logging work correctly, but for
 8. Building the reply packet (buildIpUdpPacket): constructs a minimal 20-byte IPv4 header + 8-byte UDP header + DNS payload, swapping source/destination so the reply appears to come from 10.0.0.1:53 back to the device. The IPv4 header checksum is computed properly (required); the UDP checksum is left at 0, which is valid for IPv4.
 9. Writing back: the completed packet is written to a FileOutputStream wrapping the same tunnel file descriptor, which Android delivers back to the device's network stack as if it came from the DNS server.
 
-### Known Limitations (by design, for a spike)
+### Known Limitations
 
 1. Forwarding runs synchronously on the read-loop thread - one DNS lookup at a time, no concurrency.
 2. The domain check is a single hardcoded string, not a real detector.
